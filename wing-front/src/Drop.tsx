@@ -33,13 +33,21 @@ export function Drop() {
         }),
         columnHelper.accessor("weight", {
             header: () => 'Weight',
-            cell: info => info.renderValue(),
+            //format as number without decimals using the built-in formatter
+            cell: info => info.row.original.weight.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }),
             footer: info => info.column.id,
         }),
         columnHelper.accessor("items", {
             header: () => 'Items',
             //add a custom cell renderer
-            cell: info => <div><i>{info.row.original.items.map(i => i.item_id)}</i></div>,
+            cell: info => <div className="flex flex-col gap-2">{info.row.original.items.map(i =>
+                <div className="flex gap-2">
+                    <div>{i.item_id}</div>
+                    <div>{i.quantity}</div>
+                </div>)}</div>,
             footer: info => info.column.id,
         })
     ]
