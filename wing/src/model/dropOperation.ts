@@ -3,7 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Parcel } from './Parcel';
 
 export class DropOperation {
-  //add apiProperty decorator to each property
   @ApiProperty()
   revenue: number;
 

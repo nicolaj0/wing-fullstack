@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 
 @Injectable()
-export class ExternalApiService {
+export class TrackingService {
   async getTrackingId(useApi: boolean): Promise<number> {
     if (!useApi) {
       const min = 100000000;
@@ -17,6 +17,8 @@ export class ExternalApiService {
     try {
       const response = await axios.get(url);
       return response.data;
-    } catch (error) {}
+    } catch (error) {
+      throw new Error('Error getting tracking id');
+    }
   }
 }

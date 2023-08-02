@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import * as fs from 'fs';
-import { ExternalApiService } from './externalApiService';
+import { TrackingService } from './trackingService';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -9,7 +9,7 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [ExternalApiService],
+      providers: [TrackingService],
     }).compile();
 
     appController = app.get<AppController>(AppController);

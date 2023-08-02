@@ -1,8 +1,6 @@
-//create a service to create parcel from orders
 import { Order } from './model/Order';
 import { Parcel } from './model/Parcel';
 import { Item } from './model/Item';
-import { Injectable } from '@nestjs/common';
 export class ParcelService {
   createParcelsFromOrders(orders: Order[], items: Item[]): Parcel[] {
     const parcels: Parcel[] = [];
@@ -32,7 +30,6 @@ export class ParcelService {
           }
 
           currentWeight += itemFromInventory.weight;
-
           currentParcel.weight += itemFromInventory.weight;
 
           currentItemCount += 1;

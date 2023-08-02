@@ -6,7 +6,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Order } from './model/Order';
 import { Item } from './model/Item';
 import { ParcelService } from './parcelService';
-import { ExternalApiService } from './externalApiService';
+import { TrackingService } from './trackingService';
 import { Parcel } from './model/Parcel';
 
 describe('AppController (unit)', () => {

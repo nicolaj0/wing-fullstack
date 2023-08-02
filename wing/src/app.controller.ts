@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ExternalApiService } from './externalApiService';
+import { TrackingService } from './trackingService';
 import { Parcel } from './model/Parcel';
 import * as fs from 'fs';
 import { ParcelService } from './parcelService';
@@ -10,16 +10,14 @@ import { DropOperation } from './model/dropOperation';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: ExternalApiService) {}
-
-  //add swagger documentation
+  constructor(private readonly appService: TrackingService) {}
   @Get()
   @ApiResponse({
     status: 200,
     description: 'Generate parcels',
     type: DropOperation,
   })
-  async generate(): Promise<{ revenue: number; parcels: Parcel[] }> {
+  async generate(): Promise<DropOperation> {
     const orders = JSON.parse(fs.readFileSync('./data/orders.json', 'utf8'));
     const items = JSON.parse(fs.readFileSync('./data/items.json', 'utf8'));
 
@@ -30,13 +28,9 @@ export class AppController {
 
     const parcels = parcelService.createParcelsFromOrders(orders.orders, items.items);
 
-    for (const fruit of parcels) {
-      const numFruit = await this.appService.getTrackingId(false);
-      fruit.tracking_id = numFruit;
+    for (const parcel of parcels) {
+      parcel.tracking_id = await this.appService.getTrackingId(false);
     }
-
-    //store parcels in a file
-    fs.writeFileSync('./data/parcels.json', JSON.stringify(parcels));
 
     const revenue = parcelService.calculateRevenue(parcels);
 
