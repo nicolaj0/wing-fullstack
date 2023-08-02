@@ -35,6 +35,12 @@ export function Drop() {
             header: () => 'Weight',
             cell: info => info.renderValue(),
             footer: info => info.column.id,
+        }),
+        columnHelper.accessor("items", {
+            header: () => 'Items',
+            //add a custom cell renderer
+            cell: info => <div><i>{info.row.original.items.map(i => i.item_id)}</i></div>,
+            footer: info => info.column.id,
         })
     ]
 
