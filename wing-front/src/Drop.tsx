@@ -7,7 +7,7 @@ import {createColumnHelper, flexRender, getCoreRowModel, useReactTable} from "@t
 export function Drop() {
 
     let serviceClient = new ServiceClient(undefined, axios.create({
-            baseURL: "http://localhost:3001",
+            baseURL: process.env.REACT_APP_BASE_URL,
             transformResponse: data => data // this line here
         })
     );
