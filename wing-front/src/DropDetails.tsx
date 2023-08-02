@@ -4,10 +4,25 @@ import {Parcel, ServiceClient} from "./generated/api/WingClients";
 import axios from "axios";
 import {createColumnHelper, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {useApi} from "./useApi";
+import Typography from '@mui/material/Typography';
+export function Revenue() {
 
+    const {isLoading, data} = useApi();
 
+    return <React.Fragment>
+        <Typography component="h2" variant="h6" color="primary" gutterBottom>
+            Revenue
+        </Typography>
+        <Typography component="p" variant="h4">
+            {data?.revenue.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })}
+        </Typography>
+    </React.Fragment>
 
-export function Drop() {
+}
+export function DropDetails() {
 
     const {isLoading, data} = useApi();
 
@@ -31,7 +46,6 @@ export function Drop() {
         }),
         columnHelper.accessor("weight", {
             header: () => 'Weight',
-            //format as number without decimals using the built-in formatter
             cell: info => info.row.original.weight.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
@@ -61,7 +75,6 @@ export function Drop() {
         <div>
             {isLoading && <div>Loading...</div>}
             {data && <div>
-                <div>{data.revenue}</div>
 
                 <div className="w-fit">
                     <table>

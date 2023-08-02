@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {QueryClient, QueryClientProvider} from "react-query";
-import {Drop} from "./Drop";
+import {DropDetails, Revenue} from "./DropDetails";
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
@@ -30,11 +30,7 @@ function App() {
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar position="absolute" >
-                    <Toolbar
-                        sx={{
-                            pr: '24px', // keep right padding when drawer closed
-                        }}
-                    >
+                    <Toolbar>
                         <Typography
                             component="h1"
                             variant="h6"
@@ -66,18 +62,8 @@ function App() {
                     }}
                 >
                     <Toolbar />
-                    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                    <div className="grid grid-cols-1 gap-4 items-center content-center">
 
-                        {/*<Paper
-                            sx={{
-                                p: 2,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                height: 240,
-                            }}
-                        >
-                            <Deposits />
-                        </Paper>*/}
                         <Paper
                             sx={{
                                 p: 2,
@@ -85,11 +71,20 @@ function App() {
                                 flexDirection: 'column',
                             }}
                         >
-                            <Drop />
+                            <Revenue />
+                        </Paper>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                            }}
+                        >
+                            <DropDetails />
                         </Paper>
 
                         <Copyright sx={{ pt: 4 }} />
-                    </Container>
+                    </div>
                 </Box>
             </Box>
         </ThemeProvider>
