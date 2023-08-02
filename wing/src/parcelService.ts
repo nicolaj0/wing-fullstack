@@ -33,9 +33,6 @@ export class ParcelService {
           currentParcel.weight += itemFromInventory.weight;
 
           currentItemCount += 1;
-          if (currentItemCount === 15) {
-            currentItemCount = 0;
-          }
         }
       });
     });

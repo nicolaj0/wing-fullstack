@@ -1,12 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
 import { TrackingService } from './trackingService';
-import { Parcel } from './model/Parcel';
 import * as fs from 'fs';
 import { ParcelService } from './parcelService';
 import { Item } from './model/Item';
 import { Order } from './model/Order';
 import { ApiResponse } from '@nestjs/swagger';
 import { DropOperation } from './model/dropOperation';
+import _ = require('lodash');
 
 @Controller()
 export class AppController {
@@ -28,8 +28,14 @@ export class AppController {
 
     const parcels = parcelService.createParcelsFromOrders(orders.orders, items.items);
 
-    for (const parcel of parcels) {
-      parcel.tracking_id = await this.appService.getTrackingId(false);
+    let paletteNumber = 0;
+    for (const chunk of _.chunk(parcels, 15)) {
+      const trackingId = await this.appService.getTrackingId(true);
+      paletteNumber++;
+      for (const parcel of chunk) {
+        parcel.tracking_id = trackingId;
+        parcel.palette_number = paletteNumber;
+      }
     }
 
     const revenue = parcelService.calculateRevenue(parcels);

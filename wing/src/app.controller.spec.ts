@@ -20,7 +20,7 @@ describe('AppController', () => {
       const actual = await appController.generate();
 
       //revenue should be 5255
-      expect(actual.revenue).toBe(5255);
+      expect(actual.revenue).toBe(5252);
 
       //check tracking ids are >0 and < 110000000
       expect(actual.parcels[0].tracking_id).toBeGreaterThan(0);
