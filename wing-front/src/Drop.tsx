@@ -3,17 +3,13 @@ import {useQuery} from "react-query";
 import {Parcel, ServiceClient} from "./generated/api/WingClients";
 import axios from "axios";
 import {createColumnHelper, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import {useApi} from "./useApi";
 
 
 
 export function Drop() {
 
-    let serviceClient = new ServiceClient(undefined, axios.create({
-            baseURL: process.env.REACT_APP_BASE_URL,
-            transformResponse: data => data // this line here
-        })
-    );
-    const {data, isLoading} = useQuery('drop', () => serviceClient.index().then((res) => res))
+    const {isLoading, data} = useApi();
 
     const columnHelper = createColumnHelper<Parcel>()
 
