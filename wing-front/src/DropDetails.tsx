@@ -1,28 +1,31 @@
-import React from "react";
-import {useQuery} from "react-query";
-import {Parcel, ServiceClient} from "./generated/api/WingClients";
-import axios from "axios";
-import {createColumnHelper, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
+import type {Parcel} from "./generated/api/WingClients";
+import type {CellContext} from "@tanstack/react-table";
+// eslint-disable-next-line no-duplicate-imports
+import { createColumnHelper, flexRender, getCoreRowModel, useReactTable} from "@tanstack/react-table";
 import {useApi} from "./useApi";
 import Typography from '@mui/material/Typography';
-export function Revenue() {
+import type {ReactElement} from "react";
+export const Revenue = (): ReactElement => {
 
-    const {isLoading, data} = useApi();
+    const response = useApi();
 
-    return <React.Fragment>
+    return (<>
         <Typography component="h2" variant="h6" color="primary" gutterBottom>
             Revenue
         </Typography>
         <Typography component="p" variant="h4">
-            {data?.revenue.toLocaleString('en-US', {
+            {response.data?.revenue.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             })}
         </Typography>
-    </React.Fragment>
+    </>);
 
 }
-export function DropDetails() {
+
+
+
+export const DropDetails = (): ReactElement => {
 
     const {isLoading, data} = useApi();
 
@@ -33,7 +36,7 @@ export function DropDetails() {
             cell: info => info.getValue(),
             footer: info => info.column.id,
         }),
-        columnHelper.accessor(row => row.order_id, {
+        columnHelper.accessor((row: Parcel) => row?.order_id, {
             id: 'lastName',
             cell: info => <i>{info.getValue()}</i>,
             header: () => <span>Order id</span>,
@@ -46,7 +49,7 @@ export function DropDetails() {
         }),
         columnHelper.accessor("weight", {
             header: () => 'Weight',
-            cell: info => info.row.original.weight.toLocaleString('en-US', {
+            cell: (info : CellContext<Parcel, unknown> ) => info.row.original.weight.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
             }),
@@ -55,10 +58,10 @@ export function DropDetails() {
         columnHelper.accessor("items", {
             header: () => 'Items',
             //add a custom cell renderer
-            cell: info => <div className="flex flex-col gap-2">{info.row.original.items.map(i =>
+            cell: info => <div className="flex flex-col gap-2">{info.row.original.items.map(index =>
                 <div className="flex gap-2">
-                    <div>{i.item_id}</div>
-                    <div>{i.quantity}</div>
+                    <div>{index.item_id}</div>
+                    <div>{index.quantity}</div>
                 </div>)}</div>,
             footer: info => info.column.id,
         })

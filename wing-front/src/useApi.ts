@@ -1,16 +1,19 @@
-import {ServiceClient} from "./generated/api/WingClients";
+import {DropOperation, ServiceClient} from "./generated/api/WingClients";
 import axios from "axios";
-import {useQuery} from "react-query";
+import {useQuery} from "@tanstack/react-query";
 
-export function useApi ()  {
+export function useApi (): {data: DropOperation| undefined, isLoading: boolean}  {
 
-    let serviceClient = new ServiceClient(undefined, axios.create({
-            baseURL: process.env.REACT_APP_BASE_URL,
+    const serviceClient = new ServiceClient(undefined, axios.create({
+            baseURL: 'http://localhost:3001',
             transformResponse: data => data // this line here
         })
     );
-    const {data, isLoading} = useQuery('drop', () => serviceClient.index().then((res) => res), {
-        cacheTime: Infinity
+
+    const {data, isLoading} = useQuery( {
+        queryKey: ['drop'],
+        queryFn: () => serviceClient.index().then((reponse) => reponse),
+        cacheTime: Number.POSITIVE_INFINITY
     })
 
     return {data, isLoading}
